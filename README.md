@@ -2,9 +2,10 @@
 
 Para fazer upload de um arquivo no Runrun.it utilizamos a API `documents`.
 O processo envolve a comunicação com o Runrun.it para adquirir credenciais de upload, upload do arquivo no S3 e depois confirmação do upload.
-Somente após a confirmação do upload o arquivo irá aparecer no sistema.
-Caso a confirmação do upload não seja feita o registro será apagado depois de um tempo.
-As credenciais de upload possuem validade e deverão ser utilizadas imediatamente após geradas.
+
+* Somente após a confirmação do upload o arquivo irá aparecer no sistema.
+* Caso a confirmação do upload não seja feita o registro será apagado depois de um tempo.
+* As credenciais de upload possuem validade e deverão ser utilizadas imediatamente após geradas.
 
 O diagrama de sequência abaixo mostra o fluxo utilizado nos exemplos.
 
@@ -18,7 +19,7 @@ sequenceDiagram
     Note over C,API: Inclui app-key, user-token, e detalhes da tarefa
     API-->>C: Resposta com ID da tarefa
 
-    C->>API: POST /documents?task_id= (cria documento)
+    C->>API: POST /documents?task_id=ID (cria documento)
     Note over C,API: Inclui app-key, user-token, nome do arquivo, e tamanho
     API-->>C: Resposta com campos para upload S3
 
