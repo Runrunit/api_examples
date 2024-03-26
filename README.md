@@ -49,4 +49,5 @@ As credenciais são nominais, ou seja, o dono da credencial irá aparecer como q
 ## Node.js
 
 `npm install`
+
 `APP_KEY=f9c650c98eeb28e345e0a38a184d20cb USER_TOKEN=roBknmkPI0ALmwkRuC1q node upload_file_to_task.js`
