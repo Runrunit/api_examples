@@ -1,8 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-#define('APP_KEY', 'f9c650c98eeb28e345e0a38a184d20cb');
-#define('USER_TOKEN', 'roBknmkPI0ALmwkRuC1q');
 define('APP_KEY', getenv('APP_KEY'));
 define('USER_TOKEN', getenv('USER_TOKEN'));
 
@@ -110,7 +108,7 @@ function createDocument($taskId, $filename) {
 }
 
 $title = "First Task";
-$description = "My description"
+$description = "My description";
 $boardId = 283180;
 $projectId = NULL; # COULD BE NECESSARY BASED ON ACCOUNT CONFIGURATION
 
