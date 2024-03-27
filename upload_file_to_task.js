@@ -44,7 +44,7 @@ const createDocument = async (task_id, filename) => {
         const formHeaders = form.getHeaders(); // Include multipart/form-data
         await axios.post('https://s3.amazonaws.com/runrunit', form, { headers: {...formHeaders, 'app-key': APP_KEY, 'user-token': USER_TOKEN} });
 
-        await axios.post(`https://runrun.it/api/v1.0/documents/${document_id}/mark_as_uploaded`, {}, { headers, params: { task_id } });
+        await axios.post(`https://runrun.it/api/v1.0/documents/${document_id}/mark_as_uploaded`, {}, { headers });
     } catch (error) { console.error(error); }
 };
 
