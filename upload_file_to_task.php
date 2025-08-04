@@ -64,28 +64,23 @@ function createDocument($taskId, $filename) {
     $document = json_decode($response, true);
     $documentId = $document['id'];
     $fields = $document['fields'];
-    $contentType= $fields['content_type'];
     curl_close($curl);
 
-    # Prepare the file upload to S3
-
-    $filePath = realpath($filename);
-    $fileCurl = curl_file_create($filePath, $contentType, $filename);
+    # Prepare the file upload to Oracle
+    $actionUrl = "https://gryvnagsfedj.compat.objectstorage.sa-saopaulo-1.oraclecloud.com/runrunit";
 
     $postFields = array(
-        'name' => $filename,
-        'key' => $fields["key"],
-        'acl' => 'private',
-        'policy' => $fields["policy"],
-        'signature' => $fields["signature"],
-        'AWSAccessKeyId' => $fields["AWSAccessKeyId"],
-        'content_type' => $contentType,
-        'filename' => $filename,
-        'success_action_status' => 201,
-        'file' => $fileCurl,
+        'key' => $fields['key'],
+        'Policy' => $fields['Policy'],
+        'X-Amz-Algorithm' => $fields['X-Amz-Algorithm'],
+        'X-Amz-Credential' => $fields['X-Amz-Credential'],
+        'X-Amz-Date' => $fields['X-Amz-Date'],
+        'X-Amz-Signature' => $fields['X-Amz-Signature'],
+        'success_action_status' => '201',
+        'file' => curl_file_create(realpath($filename)),
     );
 
-    $uploadCurl = curl_init('https://s3.amazonaws.com/runrunit');
+    $uploadCurl = curl_init($actionUrl);
     curl_setopt($uploadCurl, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($uploadCurl, CURLOPT_POST, true);
     curl_setopt($uploadCurl, CURLOPT_POSTFIELDS, $postFields);
@@ -93,14 +88,12 @@ function createDocument($taskId, $filename) {
     curl_close($uploadCurl);
 
     # Update document status
-
     $url = "https://runrun.it/api/v1.0/documents/$documentId/mark_as_uploaded";
 
     $curl = curl_init($url);
-    curl_setopt($uploadCurl, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, '{}');
     curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
     $response = curl_exec($curl);

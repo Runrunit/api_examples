@@ -1,8 +1,7 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 
 import os
 import requests
-import pdb
 
 APP_KEY = os.getenv('APP_KEY')
 USER_TOKEN = os.getenv('USER_TOKEN')
@@ -25,15 +24,13 @@ def create_task(title, description, board_id, project_id):
             }
 
     print(payload)
-    response = requests.request("POST", url, json=payload, headers=headers)
+    response = requests.post(url, json=payload, headers=headers)
     print(response)
     print(response.content)
     return response.json()
 
 def create_document(task_id, filename):
     url = f'https://runrun.it/api/v1.0/documents?task_id={task_id}'
-
-    querystring = {"task_id":task_id}
 
     size = os.path.getsize(f'./{filename}')
 
@@ -52,33 +49,33 @@ def create_document(task_id, filename):
             'cache-control': "no-cache",
             }
 
-    response = requests.request("POST", url, json=payload, headers=headers, params=querystring)
+    response = requests.post(url, json=payload, headers=headers)
 
     document = response.json()
     document_id = document['id']
     fields = document['fields']
-    key = fields["key"]
-    policy = fields["policy"]
-    signature = fields["signature"]
-    awsaccesskeyid = fields["AWSAccessKeyId"]
-    content_type = fields["content_type"]
 
-    upload_file_cmd = f'curl -H "Content-Type: multipart/form-data" \
-    -F name={filename} \
-    -F key={key} \
-    -F acl=private \
-    -F policy={policy} \
-    -F signature={signature} \
-    -F AWSAccessKeyId={awsaccesskeyid}\
-    -F content_type={content_type} \
-    -F filename={filename} \
-    -F success_action_status=201 \
-    -F file=@{filename} -X POST https://s3.amazonaws.com/runrunit'
-    os.system(upload_file_cmd)
+    action_url = "https://gryvnagsfedj.compat.objectstorage.sa-saopaulo-1.oraclecloud.com/runrunit"
+
+    form_data = {
+        'key': fields['key'],
+        'Policy': fields['Policy'],
+        'X-Amz-Algorithm': fields['X-Amz-Algorithm'],
+        'X-Amz-Credential': fields['X-Amz-Credential'],
+        'X-Amz-Date': fields['X-Amz-Date'],
+        'X-Amz-Signature': fields['X-Amz-Signature'],
+        'success_action_status': '201',
+    }
+
+    with open(filename, 'rb') as f:
+        files = {'file': (filename, f)}
+        upload_response = requests.post(action_url, data=form_data, files=files)
+        print(f'Upload response: {upload_response.status_code} {upload_response.text}')
 
     url = f'https://runrun.it/api/v1.0/documents/{document_id}/mark_as_uploaded'
 
-    response = requests.request("POST", url, headers=headers, params=querystring)
+    response = requests.post(url, headers=headers)
+    print(f'Mark as uploaded response: {response.status_code} {response.text}')
 
 title = "First Task"
 description = "My description"
