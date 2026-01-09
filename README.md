@@ -4,11 +4,11 @@
 
 **Este repositório contém exemplos de código e não deve ser utilizado em ambiente produtivo sem uma análise completa.**
 
-O código aqui apresentado tem o intuito de servir como um guia básico e inspiração para a utilização da API do Runrun.it. 
-Ele não cobrirá todos os casos de uso ou cenários de erro.
-As dependências podem estar desatualizadas ou incompletas.
-O código apresentando aqui não faz parte do nosso produto e possui um ciclo de atualização, práticas e linguagens diferentes das utilizadas no nosso produto.
-Recomenda-se que qualquer implementação baseada nestes exemplos seja devidamente testada e validada por uma equipe de desenvolvimento qualificada antes de ser usada em produção.
+* O código aqui apresentado tem o intuito de servir como um guia básico e inspiração para a utilização da API do Runrun.it.
+* Ele não cobrirá todos os casos de uso ou cenários de erro.
+* As dependências podem estar desatualizadas ou incompletas.
+* O código apresentando aqui não faz parte do nosso produto e possui um ciclo de atualização, práticas e linguagens diferentes das utilizadas no nosso produto.
+* Recomenda-se que qualquer implementação baseada nestes exemplos seja devidamente testada e validada por uma equipe de desenvolvimento qualificada antes de ser usada em produção.
 
 # Upload de Arquivos
 
