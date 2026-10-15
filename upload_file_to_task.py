@@ -57,15 +57,7 @@ def create_document(task_id, filename):
 
     action_url = "https://gryvnagsfedj.compat.objectstorage.sa-saopaulo-1.oraclecloud.com/runrunit"
 
-    form_data = {
-        'key': fields['key'],
-        'Policy': fields['Policy'],
-        'X-Amz-Algorithm': fields['X-Amz-Algorithm'],
-        'X-Amz-Credential': fields['X-Amz-Credential'],
-        'X-Amz-Date': fields['X-Amz-Date'],
-        'X-Amz-Signature': fields['X-Amz-Signature'],
-        'success_action_status': '201',
-    }
+    form_data = dict(fields)
 
     with open(filename, 'rb') as f:
         files = {'file': (filename, f)}

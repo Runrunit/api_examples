@@ -69,16 +69,8 @@ function createDocument($taskId, $filename) {
     # Prepare the file upload to Oracle
     $actionUrl = "https://gryvnagsfedj.compat.objectstorage.sa-saopaulo-1.oraclecloud.com/runrunit";
 
-    $postFields = array(
-        'key' => $fields['key'],
-        'Policy' => $fields['Policy'],
-        'X-Amz-Algorithm' => $fields['X-Amz-Algorithm'],
-        'X-Amz-Credential' => $fields['X-Amz-Credential'],
-        'X-Amz-Date' => $fields['X-Amz-Date'],
-        'X-Amz-Signature' => $fields['X-Amz-Signature'],
-        'success_action_status' => '201',
-        'file' => curl_file_create(realpath($filename)),
-    );
+    $postFields = $fields;
+    $postFields['file'] = curl_file_create(realpath($filename));
 
     $uploadCurl = curl_init($actionUrl);
     curl_setopt($uploadCurl, CURLOPT_RETURNTRANSFER, true);

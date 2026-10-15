@@ -32,15 +32,9 @@ const createDocument = async (task_id, filename) => {
   const actionUrl = "https://gryvnagsfedj.compat.objectstorage.sa-saopaulo-1.oraclecloud.com/runrunit"
 
   const form = new FormData();
-  form.append('key', fields.key);
-  form.append('Policy', fields.Policy);
-  form.append('X-Amz-Algorithm', fields['X-Amz-Algorithm']);
-  form.append('X-Amz-Credential', fields['X-Amz-Credential']);
-  form.append('X-Amz-Date', fields['X-Amz-Date']);
-  form.append('X-Amz-Signature', fields['X-Amz-Signature']);
-  form.append('success_action_status', '201');
+  Object.entries(fields).forEach(([name, value]) => form.append(name, value));
 
-  // Arquivo
+  // Arquivo (deve ser o último campo)
   form.append('file', fs.createReadStream(`./${filename}`));
 
   const formHeaders = form.getHeaders();
